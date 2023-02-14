@@ -1,0 +1,39 @@
+{% extends 'Blog/base.html' %}
+
+{% block title %}
+        Blog Detail
+{% endblock title %}
+
+{% block body %}
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-9">
+            <h1 class="text-center text-primary">{{blog.title}}</h1>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'home' %}">
+                 <button type="button" class="btn btn-lg btn-md btn-primary float-end"> Back to Home </button>
+             </a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card ">
+      <img src="/media/{{blog.image}}" style="height:38rem; width=12rem;" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{blog.title}}</h5>
+        <p class="card-text">{{blog.Description|safe}}</p>
+        <p class="card-text"><strong>Created By :-</strong>{{blog.user_id.username}}</p>
+        <p class="card-text"><small class="text-primary"><strong>Created at :-</strong>{{blog.date}}</small></p>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock body %}

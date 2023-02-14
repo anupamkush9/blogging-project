@@ -1,0 +1,48 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+        Login
+{% endblock title %}
+{% block msg %}
+  {% if messages %}
+      {% for message in messages %}
+           <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" {% endif %}>
+                <strong>{{message}}</strong>
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           </div>
+      {% endfor %}
+  {% endif %}
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger alert-dismissible fade show my-3 fade show" role="alert">{{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock msg %}
+
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-3">
+                     <h3 class="text-primary my-3">Login Page</h3>
+                     <form action="" method="post" novalidate> {% csrf_token %}
+                           {% for fm in form %}
+                                <div class="form-group mb-3 text-primary">
+                                {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                                </div>
+                           {% endfor %}
+                           <input type="submit" class="btn btn-primary" value="Login">
+                     </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
+
+

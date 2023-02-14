@@ -1,0 +1,109 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+        Dashboard
+{% endblock title %}
+
+
+{% block msg %}
+  {% if messages %}
+      {% for message in messages %}
+           <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" {% endif %}>
+                <strong>{{message}}</strong>
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           </div>
+      {% endfor %}
+  {% endif %}
+{% endblock msg %}
+
+
+{% block side %}
+
+    <div class="col-sm-2 text-center">
+          <img src="/media/Blog/images/img.png" class="card-img-top rounded-circle py-5 px-2" style="height:18rem;" alt="...">
+          <h4 class="my-2">Profile</h4>
+          <h5>{{full_name}}</h5>
+          {% for group in groups %}
+            <p>{{group.name}}</p>
+          {% endfor %}
+          <a href="{% url 'my_task' %}" class="btn btn-success">My Tasks</a>
+    </div>
+
+{% endblock side %}
+
+
+{% block content %}
+
+    <div class="col-sm-10">
+        <h3 class=" my-2">Dashboard Page</h3>
+        <a href="{% url 'add_blog' %}" class="btn btn-success">Add Blog</a>
+        <h4 class="text-center alert alert-info mt-3">Showing Blog Information</h4>
+
+        {% if blogs %}
+               <table class="table table-hover bg-white">
+                     <thead>
+                       <tr class="row text-center">
+                         <th class="col-sm-1">ID</th>
+                         <th class="col-sm-3" >Title</th>
+                         <th class="col-sm-1" >Blog Thumbnail</th>
+                         <th class="col-sm-4">Created At</th>
+                        <th class="col-sm-3" >Action</th>
+                       </tr>
+                     </thead>
+
+                     <tbody>
+                      {% for blog in blogs %}
+                       <tr class="row text-center">
+                         <td class="col-sm-1" >{{blog.id}}</td>
+                         <td class="col-sm-3">{{blog.title}}</td>
+                           <td class="col-sm-1">
+                               <img src="{{ blog.image.url }}" height="65" width="75">
+                           </td>
+                         <td class="col-sm-4">{{blog.date}}</td>
+                         <td class="col-sm-3 text-center">
+                                    <a href="{% url 'blog_update' blog.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                      <a onclick="popup({{blog.id}})">
+                                          <input type="button" class="btn btn-danger btn-sm" value="Delete">
+                                      </a>
+                         </td>
+                       </tr>
+                      {% endfor %}
+                     </tbody>
+               </table>
+        {% else %}
+            <h4 class="text-center alert alert-warning">No Records</h4>
+        {% endif %}
+    </div>
+
+{% endblock content %}
+
+
+ {% block js %}
+        <!-- code of sweetalert for showing the message beautifully and attractfully.-->
+<!--        this popup funcition will execute when user will press delete btn-->
+    function popup(id)
+    {       val=parseInt(id)
+            swal
+            ({
+              title: "Do you want to Delete it ?",
+              text: "Once deleted, you will not be able to recover this Blog",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) =>
+             {
+                 if (willDelete)
+                  {
+    <!--	swal("Your Blog has been deleted!", { icon: "success",});-->
+                    window.location.href="/delete_blog/"+val+"/"
+                  }
+              else
+              {
+                swal("Your Blog is safe!");
+              }
+
+            });
+     }
+ {% endblock js %}

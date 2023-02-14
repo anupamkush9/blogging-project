@@ -1,0 +1,61 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+        Registration
+{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+            <div class="col-md-6 offset-3">
+                <h3 class="my-3 text-primary">Become an Author</h3>
+
+                        <!--    it is the simple way of showing msg which has been replaced by sweet alert-->
+                        <!--<div class="container">-->
+                        <!--  {% if messages %}-->
+                        <!--      {% for message in messages %}-->
+                        <!--           <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" {% endif %}>-->
+                        <!--                <strong>{{message}}</strong>-->
+                        <!--               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+                        <!--           </div>-->
+                        <!--      {% endfor %}-->
+                        <!--  {% endif %}-->
+                        <!--</div>-->
+
+                        <!--    -->
+
+                     <form action="" method="post" novalidate> {% csrf_token %}
+                      {% for fm in form %}
+                       <div class="form-group mb-3 text-primary">
+                       {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+                       </div>
+                      {% endfor %}
+                      <input type="submit" value="Submit" class="btn btn-primary">
+                      {% if form.non_field_errors %}
+                       {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3">{{error}}</p>
+                       {% endfor %}
+                      {% endif %}
+                     </form>
+            </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block js %}
+    <!--here we are showing message by using sweetalert -->
+<!--sweetalert provides good way to represents the alert or messages (sweetalert is a plugin -->
+            {% if messages %}
+                {% for message in messages %}
+                swal({
+                          title:'{{message}}',
+                          <!--  // text: "You clicked the button!",-->
+                          icon: "success",
+                          <!--      button: "Aww yiss!",-->
+                    });
+                {% endfor %}
+            {% endif %}
+
+{% endblock js %}

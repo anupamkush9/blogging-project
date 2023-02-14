@@ -1,0 +1,106 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+        MY Tasks
+{% endblock title %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h1 class="text-center text-primary"> My Tasks </h1>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'dashboard' %}">
+                 <button type="button" class="btn btn-lg btn-md btn-primary float-end"> Back to Dashboard </button>
+             </a>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+      <form method="POST" action="{% url 'my_task_add_task' %}"> {% csrf_token %}
+            <div class="container mt-3">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control mr-2" id="title" name="title" aria-label="" aria-describedby="basic-addon1"
+                   placeholder="Enter Your Title">
+            <button class="btn btn-outline-success mx-2" type="submit" >Add</button>
+        </div>
+    </div>
+      </form>
+
+    </div>
+    <div class="container my-3">
+      {% for i in tasks %}
+    <div class="list-group my-3">
+      <li class="list-group-item list-group-item-primary">
+          {% if i.complete %}
+               <strike>{{i.title}}</strike>
+
+               <a  onclick="popup({{i.id}})">
+                  <button type="button"  class="btn btn-danger float-end mx-3" >Delete</button>
+                </a>
+                <a href="{% url 'my_task_complete' i.id %}" >
+                  <button type="button" class="btn btn-success float-end">completed</button>
+               </a>
+          {% elif i.complete != 'True' %}
+               {{i.title}}
+            <a  onclick="popup({{i.id}})">
+                      <button type="button"  class="btn btn-danger float-end mx-3" >Delete</button>
+             </a>
+             <a href="{% url 'my_task_complete' i.id %}">
+               <button type="button" class="btn btn-success float-end">complete</button>
+             </a>
+          {% endif %}
+      </li>
+     </div>
+      {% endfor %}
+    </div>
+{% endblock body %}
+
+
+ {% block js %}
+        <!-- code of sweetalert for showing the message beautifully and attractfully.-->
+<!--        this popup funcition will execute when user will press delete btn-->
+    function popup(id)
+    {       val=parseInt(id)
+            swal
+            ({
+              title: "Do you want to Delete this Task ?",
+              text: "Once deleted, you will not be able to recover this Task",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) =>
+             {
+                 if (willDelete)
+                  {
+    <!--	swal("Your Blog has been deleted!", { icon: "success",});-->
+                    window.location.href="my_task_delete/"+val+"/"
+                  }
+              else
+              {
+                swal("Your Task is safe!");
+              }
+
+            });
+     }
+
+<!--here we are showing message by using sweetalert -->
+<!--sweetalert provides good way to represents the alert or messages (sweetalert is a plugin -->
+            {% if messages %}
+                {% for message in messages %}
+                swal({
+                          title:'{{message}}',
+                          <!--  // text: "You clicked the button!",-->
+                          icon: "success",
+                          <!--      button: "Aww yiss!",-->
+                    });
+                {% endfor %}
+            {% endif %}
+
+ {% endblock js %}

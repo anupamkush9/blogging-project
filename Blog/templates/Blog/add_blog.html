@@ -1,0 +1,72 @@
+{% extends "Blog/base.html" %}
+
+{% block title %}
+        Add Blog
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-9">
+            <h1 class="text-center text-dark"> Create Your Own Blog</h1>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'dashboard' %}">
+                 <button type="button" class="btn btn-lg btn-md btn-primary float-end"> Back to Dashboard </button>
+             </a>
+        </div>
+    </div>
+<!--   the following errror showing message has been replaced by sweealert-->
+<!--  {% if messages %}-->
+<!--      {% for message in messages %}-->
+<!--           <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" {% endif %}>-->
+<!--                <strong>{{message}}</strong>-->
+<!--               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--           </div>-->
+<!--      {% endfor %}-->
+<!--  {% endif %}-->
+</div>
+
+    <div class="container">
+        <form method="post" class=" mb-5 pb-5" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12  my-3">
+                    <label class="text-primary">Enter blog title</label>
+                    <input type="text" required class="form-control" placeholder="Enter title" name="title">
+                </div>
+                <div class="col-md-12  my-3 text-primary">
+                    {{form.media}}
+                    {{form.as_p}}
+                </div>
+                <div class="col-md-12 text-primary">
+                    <input type="file" name="image" required class="form-control" >
+                </div>
+            </div>
+            <div>
+
+                    <button type="submit" class="btn btn-primary mt-4">Create Blog</button>
+                     <a href="{% url 'dashboard' %}">
+                         <button type="button" class="btn btn-warning float-end mt-4"> Back to Dashboard </button>
+                     </a>
+
+            </div>
+        </form>
+
+    </div>
+
+{% endblock body %}
+
+{% block js %}
+            {% if messages %}
+                {% for message in messages %}
+                swal({
+                          title:'{{message}}',
+                          icon: "success",
+                    });
+                {% endfor %}
+            {% endif %}
+
+{% endblock js %}

@@ -1,0 +1,45 @@
+{% extends 'Blog/base.html' %}
+{% load static %}
+
+{% block title %}
+        home
+{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+              {% for blog in blogs %}
+                <div class="col-sm-4 my-3">
+                  <div class="card shadow" style="width: 22rem;">
+<!--                    <img src="/media/{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">-->
+                      <img src="{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">
+                    <div class="card-body">
+                          {% if blog.title|length >= 30 %}
+                                <h5 class="card-title">{{blog.title|slice:":30"}} ....</h5>
+                          {% else %}
+                               <h5 class="card-title">{{blog.title}}</h5>
+                          {% endif %}
+                        <p class="card-text"><strong>Created By :-</strong>{{blog.user_id.username}}</p>
+                        <p class="card-text"><strong>Created at :-</strong>{{blog.date}}</p>
+                      <a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary">Read More</a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block js %}
+            {% if messages %}
+                {% for message in messages %}
+                swal({
+                          title:'{{message}}',
+                          icon: "success",
+                    });
+                {% endfor %}
+            {% endif %}
+
+{% endblock js %}

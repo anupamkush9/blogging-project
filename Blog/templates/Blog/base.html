@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--       SweetAlert for showing alet msg in animated way-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>
+          {% block title %}
+
+          {% endblock title %}
+    </title>
+
+    {% block head %}
+
+    {% endblock head %}
+  </head>
+  <body>
+  <div class="container-fluid bg-primary">
+    {% include 'Blog/navbar.html' %}
+  </div>
+
+  <div class="container my-3">
+       {% block msg %}   {% endblock msg %}
+  </div>
+
+  {% block body %}
+    <!-- Optional JavaScript; choose one of the two! -->
+    {% endblock body %}
+
+     <div class="row">
+         {% block side %}
+         {% endblock side %}
+
+         {% block content %}
+         {% endblock content %}
+     </div>
+
+  <!--  for applying js-->
+  <script>
+        {% block js %}
+         {% endblock js %}
+  </script>
+
+  <footer class="position-relative my-3 z-index-10 d-print-none">
+          <div class="py-4 bg-primary text-white">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-md-12 text-center text-md-left">
+                    <p class="text-sm text-center mb-md-0">@developer of this website <b>Anupam Kushwaha</b> </p>
+                    <p class="text-sm text-center mb-md-0">@Contact <b>Anupamcoder@gmail.com</b> </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+  </footer>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  </body>
+</html>

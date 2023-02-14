@@ -1,0 +1,51 @@
+{% url 'about' as about %}
+{% url 'contact' as contact %}
+{% url 'dashboard' as dashboard %}
+{% url 'login' as login %}
+{% url 'signup' as signup %}
+{% url 'home' as home %}
+{% url 'logout' as logout %}
+{% url 'my_task' as my_task %}
+{% url 'add_blog' as add_blog %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--    <span class="navbar-toggler-icon"></span>-->
+<!--  </button>-->
+  <div class="collapse navbar-collapse" id="mydiv navbarNav">
+    <ul class="navbar-nav">
+
+      {% if request.user.is_authenticated %}
+      <li class="nav-item" onclick="color()">
+        <a class="nav-link navbar-brand {% if request.path == home %} active {% endif %}" href="/">Home <span class="sr-only">({{request.user.username}})</span></a>
+      </li>
+      <li class="nav-item" onclick="color()">
+        <a class="nav-link navbar-brand {% if request.path == dashboard or request.path == add_blog or request.path == my_task %} active {% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+      </li>
+
+      {% else %}
+      <li class="nav-item" onclick="color()">
+           <a class="nav-link navbar-brand {% if request.path == home %} active {% endif %}" href="/">Home <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item" onclick="color()">
+        <a class="nav-link navbar-brand {% if request.path == signup %} active {% endif %}" href="{% url 'signup' %}">Signup/Registration</a>
+      </li>
+      <li class="nav-item" onclick="color()">
+        <a class="nav-link navbar-brand {% if request.path == login %} active {% endif %}" href="{% url 'login' %}">Login</a>
+      </li>
+      {% endif %}
+
+      <li class="nav-item" onclick="color()">
+        <a class="nav-link navbar-brand {% if request.path == about %} active {% endif %}" href="{% url 'about' %}">About</a>
+      </li>
+      <li class="nav-item" onclick="color()">
+        <a class="nav-link navbar-brand {% if request.path == contact %} active {% endif %}" href="{% url 'contact' %}">Contact</a>
+      </li>
+       {% if request.user.is_authenticated %}
+        <li class="nav-item" onclick="color()">
+            <a class="nav-link navbar-brand {% if request.path == logout %} active {% endif %}" href="{% url 'logout' %}">Logout</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,71 @@
+{% extends "Blog/base.html" %} {% block title %} Blog Update {% endblock title%}
+{% block body %}
+
+<div class="container">
+  <!--            <h4 class="text-center alert alert-primary mt-3">Update Your Blog</h4>-->
+  <div class="row">
+    <div class="col-md-9">
+      <h1 class="text-center text-dark">Update Your Blog</h1>
+    </div>
+
+    <div class="col-md-3">
+      <a href="{% url 'dashboard' %}">
+        <button type="button" class="btn btn-lg btn-md btn-primary float-end">
+          Back to Dashboard
+        </button>
+      </a>
+    </div>
+  </div>
+  {% if messages %} {% for message in messages %}
+  <div
+    {%
+    if  message.tags
+    %}
+    class="alert alert-{{message.tags}} alert-dismissible fade show"
+    role="alert"
+    {%
+    endif
+    %}
+  >
+    <strong>{{message}}</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endfor %} {% endif %}
+</div>
+
+<div class="container mt-3">
+  <form method="post" class="mb-5 pb-5" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!--{{b_edit.as_p}}-->
+    <div class="row">
+      <div class="col-md-12 mt-3">
+        <label class="text-primary">Enter blog title </label>
+        <input
+          type="text"
+          value="{{blog_obj.title}}"
+          class="form-control"
+          placeholder="Enter title"
+          name="title"
+        />
+      </div>
+
+      <div class="col-md-12 my-3 text-primary">
+        {{form.media}} {{form.as_p}}
+      </div>
+
+      <div class="col-md-12 text-primary">
+        <img
+          src="/media/{{blog_obj.image}}" alt="image-here" class="mb-3" width="100" height="100" />
+        <a href="/media/{{blog_obj.image}}">{{blog_obj.image}}</a>
+        <input type="file" name="image" value="Anupam" class="form-control" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-4">Update Blog</button>
+  </form>
+</div>
+{% endblock body%}
