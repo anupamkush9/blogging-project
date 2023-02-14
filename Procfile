@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi
+web: gunicorn Smart_blogging_system.wsgi
