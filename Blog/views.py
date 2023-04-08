@@ -71,7 +71,7 @@ def signup(request):
             user.groups.add(group)
     else:
         form = SignUpForm()
-    return render(request, 'blog/signup.html', {'form': form})
+    return render(request, 'Blog/signup.html', {'form': form})
 
 
 def dashboard(request):
