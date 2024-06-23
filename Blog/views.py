@@ -7,11 +7,21 @@ from .forms import LoginForm, SignUpForm
 from django.contrib.auth.models import Group
 from django.contrib.auth import login as auth_login
 from .forms import BlogForm
+from django.http import HttpResponse
 # Create your views here.
 
 
 def home(request):
-    context = {'blogs': Blog_table.objects.all()}
+    blogs = []
+    context = {}
+    if request.user.is_authenticated:
+        blogs = Blog_table.objects.all()
+        # Ref https://testdriven.io/blog/django-permissions/
+        if not request.user.has_perm("blog.view_blog_table"):
+            blogs = Blog_table.objects.filter(user_id = request.user)
+        context.update({'blogs': blogs})
+        return render(request, 'Blog/home.html', context)
+    blogs = Blog_table.objects.none()
     return render(request, 'Blog/home.html', context)
 
 

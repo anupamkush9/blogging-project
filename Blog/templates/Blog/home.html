@@ -7,18 +7,24 @@
 
 {% block body %}
 
-<div class="container">
+{% if not user.is_authenticated %}
+  <h1 style="text-align: center;"> Please do login to view blogs </h1>
+
+{% elif user.is_authenticated  and perms.Blog.view_blog_table %}
+{% comment %} {app}.{action}_{model_name} {% endcomment %}
+{% comment %} Ref : https://testdriven.io/blog/django-permissions/#:~:text=With%20Django%2C%20you%20can%20create,auth. {% endcomment %}
+  <div class="container">
     <div class="row">
               {% for blog in blogs %}
                 <div class="col-sm-4 my-3">
                   <div class="card shadow" style="width: 22rem;">
-<!--                    <img src="/media/{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">-->
+  <!--                    <img src="/media/{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">-->
                       <img src="{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">
                     <div class="card-body">
                           {% if blog.title|length >= 30 %}
                                 <h5 class="card-title">{{blog.title|slice:":30"}} ....</h5>
                           {% else %}
-                               <h5 class="card-title">{{blog.title}}</h5>
+                              <h5 class="card-title">{{blog.title}}</h5>
                           {% endif %}
                         <p class="card-text"><strong>Created By :-</strong>{{blog.user_id.username}}</p>
                         <p class="card-text"><strong>Created at :-</strong>{{blog.date}}</p>
@@ -28,7 +34,34 @@
                 </div>
               {% endfor %}
     </div>
-</div>
+  </div>
+{% else %}
+
+  <div class="container">
+    <div class="row">
+        <h1> You Don't have permission to view others Blog </h1>
+        {% for blog in blogs %}
+          <div class="col-sm-4 my-3">
+            <div class="card shadow" style="width: 22rem;">
+    <!--                    <img src="/media/{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">-->
+                <img src="{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">
+              <div class="card-body">
+                    {% if blog.title|length >= 30 %}
+                          <h5 class="card-title">{{blog.title|slice:":30"}} ....</h5>
+                    {% else %}
+                        <h5 class="card-title">{{blog.title}}</h5>
+                    {% endif %}
+                  <p class="card-text"><strong>Created By :-</strong>{{blog.user_id.username}}</p>
+                  <p class="card-text"><strong>Created at :-</strong>{{blog.date}}</p>
+                <a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
 
 {% endblock body %}
 
