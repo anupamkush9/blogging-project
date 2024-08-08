@@ -1,3 +1,36 @@
-**migrations**
-**.pyc
+
+#for ignoring all migrations directories across the project at any level
+migrations/
+
+# This pattern *.py[cod] will match and ignore files that have [.pyc, .pyo, .pyd] extensions in entire repo.
+*.py[cod]
+
+# for ignoring .env file
+.env
+
+# for ignoring venv directory which is at the root of directory
 /venv
+
+# Ignores all __pycache__ directories in entire repo and all of it's contents recursively at any level
+__pycache__/
+
+# for ignoring media directory ( media directory contains images and files which a user uploads locally )
+media/
+
+# for ignoring staticfiles directory at any level
+staticfiles/
+
+# for ignoring .log files
+*.log
+
+# JetBrains IDE Pycharm ( for ignoring .idea directory at any level )
+.idea/
+
+# for ignoring local_settings.py file at any level which is used for specifying local_setting for development
+local_settings.py
+
+# for ignoring db.sqlite3 db across the project and should be uncommented before deployemt
+# db.sqlite3
+
+# for ignoring locally generated .db file
+*.db
