@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate
@@ -7,6 +7,9 @@ from .forms import LoginForm, SignUpForm
 from django.contrib.auth.models import Group
 from django.contrib.auth import login as auth_login
 from .forms import BlogForm
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -14,17 +17,47 @@ def home(request):
     context = {'blogs': Blog_table.objects.all()}
     return render(request, 'Blog/home.html', context)
 
+# below HomeGenericView and HomeView are the equivalent cbv for home() fbv
+class HomeListView(ListView):
+    model = Blog_table
+    template_name = 'Blog/home.html'
+    context_object_name = 'blogs'
+
+class HomeView(View):
+    def get(self, request):
+        blogs = Blog_table.objects.all()
+        context = {'blogs': blogs}
+        return render(request, 'Blog/home.html', context)
+
 
 def blog_detail(request, id):
     blog = Blog_table.objects.get(id=id)
     return render(request, 'Blog/blog_detail.html', {'blog': blog})
 
+# below BlogDetailView and BlogDetailDetailView are the equivalent cbv for blog_detail() fbv
+class BlogDetailView(View):
+    def get(self, request, id):
+        blog = get_object_or_404(Blog_table, id=id)
+        return render(request, 'Blog/blog_detail.html', {'blog': blog})
+
+class BlogDetailDetailView(DetailView):
+    model = Blog_table
+    template_name = 'Blog/blog_detail.html'
+    context_object_name = 'blog'
+    pk_url_kwarg = 'id'
 # about
 
 
 def about(request):
     return render(request, 'Blog/about.html')
 
+# below AboutTemplateView and AboutView are the equivalent cbv for about() fbv
+class AboutTemplateView(TemplateView):
+    template_name = 'Blog/about.html'
+
+class AboutView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'Blog/about.html')
 # Contact
 
 
@@ -83,6 +116,31 @@ def dashboard(request):
     else:
         return HttpResponseRedirect('/login/')
 
+# below DashboardView and DashboardTemplateView are the equivalent cbv for dashboard() fbv
+class DashboardView(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            blogs = Blog_table.objects.filter(user_id=request.user.id)
+            full_name = request.user.username
+            gps = request.user.groups.all()
+            context = {
+                'blogs': blogs,
+                'full_name': full_name,
+                'groups': gps,
+            }
+            return render(request, 'Blog/dashboard.html', context)
+        else:
+            return HttpResponseRedirect('/login/')
+
+class DashboardTemplateView(LoginRequiredMixin, TemplateView):
+    template_name = 'Blog/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['blogs'] = Blog_table.objects.filter(user_id=self.request.user.id)
+        context['full_name'] = self.request.user.username
+        context['groups'] = self.request.user.groups.all()
+        return context        
 
 # Add New Post
 def add_blog(request):
@@ -152,3 +210,10 @@ def delete_blog(request, id):
         return HttpResponseRedirect('/dashboard/')
     else:
         return HttpResponseRedirect('/login/')
+
+# below DeleteBlogView is equivalent cbv for delete_blog() fbv
+class DeleteBlogView(LoginRequiredMixin, View):
+    def get(self, request, id):
+        blog = Blog_table.objects.get(pk=id)
+        blog.delete()
+        return redirect('dashboard')  # Assuming 'dashboard' is the name of your dashboard URL

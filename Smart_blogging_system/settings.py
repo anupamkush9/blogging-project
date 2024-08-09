@@ -126,6 +126,8 @@ STATIC_ROOT = os.path.join(BASE_DIR,"static")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
+LOGIN_URL = '/login/'
+
 # FROALA_UPLOAD_PATH = os.path.join(BASE_DIR,"media")
 # FILE_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'media')
 
