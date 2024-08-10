@@ -19,6 +19,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.authentication import BasicAuthentication
 
 
 def home(request):
@@ -228,7 +229,7 @@ class DeleteBlogView(LoginRequiredMixin, View):
 
 ########################################## API  CODE Implemenation #######################################################
 class BlogViewSet(viewsets.ModelViewSet):
-    authentication_classes = [JWTAuthentication]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     queryset = Blog_table.objects.all()
@@ -238,7 +239,7 @@ class BlogViewSet(viewsets.ModelViewSet):
         serializer.save(user_id=self.request.user)
 
 class BlogListCreateAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -254,7 +255,7 @@ class BlogListCreateAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BlogDetailAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
+    authentication_classes = [JWTAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
