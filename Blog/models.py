@@ -9,3 +9,6 @@ class Blog_table(models.Model):
     Description=FroalaField()
     date=models.DateTimeField(auto_now_add=True,null=True)
     image=models.ImageField(upload_to='Blog/images',default='')
+
+    def __str__(self):
+        return self.title
