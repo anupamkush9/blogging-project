@@ -12,8 +12,9 @@
               {% for blog in blogs %}
                 <div class="col-sm-4 my-3">
                   <div class="card shadow" style="width: 22rem;">
-<!--                    <img src="/media/{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">-->
-                      <img src="{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">
+                      {% if blog.image %}
+                          <img src="{{blog.image.url}}" class="card-img-top rounded" style="height:18rem;" alt="...">
+                      {% endif %}
                     <div class="card-body">
                           {% if blog.title|length >= 30 %}
                                 <h5 class="card-title">{{blog.title|slice:":30"}} ....</h5>
