@@ -10,6 +10,14 @@ from .forms import BlogForm
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+from rest_framework import viewsets
+from .serializers import BlogSerializer
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
@@ -217,3 +225,14 @@ class DeleteBlogView(LoginRequiredMixin, View):
         blog = Blog_table.objects.get(pk=id)
         blog.delete()
         return redirect('dashboard')  # Assuming 'dashboard' is the name of your dashboard URL
+
+########################################## API VIEW CODE #######################################################
+class BlogViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    queryset = Blog_table.objects.all()
+    serializer_class = BlogSerializer
+    
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)

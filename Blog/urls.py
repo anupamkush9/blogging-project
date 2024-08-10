@@ -1,5 +1,11 @@
 from django.urls import path, include
 from Blog import views
+from rest_framework.routers import DefaultRouter
+from .views import BlogViewSet
+
+router = DefaultRouter()
+router.register(r'blogs', BlogViewSet)
+
 urlpatterns = [
 
     # below are the 2 class based view implementation for function based view
@@ -29,5 +35,9 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('signup/', views.signup, name='signup'),
     path('blog_update/<int:id>/' , views.blog_update , name="blog_update"),
+    
+    # route for apis
+    path('api/v1/', include(router.urls)),
+    
 
 ]
