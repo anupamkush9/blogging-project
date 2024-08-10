@@ -39,5 +39,7 @@ urlpatterns = [
     # route for apis
     path('api/v1/', include(router.urls)),
     
+    path('api/blogs/', views.BlogListCreateAPIView.as_view()),  # For list and create
+    path('api/blogs/<int:pk>/', views.BlogDetailAPIView.as_view()),  # For retrieve, update, and delete
 
 ]

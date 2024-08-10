@@ -144,7 +144,7 @@ REST_FRAMEWORK = {
 # we can customize more fields as per our requirement by going through above link
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=300),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': True,
     'USER_ID_FIELD': 'id',

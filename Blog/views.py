@@ -18,7 +18,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-# Create your views here.
+from rest_framework.views import APIView
 
 
 def home(request):
@@ -226,13 +226,63 @@ class DeleteBlogView(LoginRequiredMixin, View):
         blog.delete()
         return redirect('dashboard')  # Assuming 'dashboard' is the name of your dashboard URL
 
-########################################## API VIEW CODE #######################################################
+########################################## API  CODE Implemenation #######################################################
 class BlogViewSet(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     queryset = Blog_table.objects.all()
     serializer_class = BlogSerializer
-    
+
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
+
+class BlogListCreateAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        blogs = Blog_table.objects.all()
+        serializer = BlogSerializer(blogs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = BlogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user_id=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class BlogDetailAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        # blog = Blog_table.objects.get(pk=pk)
+        blog = get_object_or_404(Blog_table, pk=pk)
+        serializer = BlogSerializer(blog)
+        return Response(serializer.data)
+
+	# 1st argument represents the instance of the Blog_table model that we want to update. and 2nd argument is the new data that we want to apply to the instance.
+    def put(self, request, pk):
+        # blog = Blog_table.objects.get(pk=pk)
+        blog = get_object_or_404(Blog_table, pk=pk)
+        serializer = BlogSerializer(blog, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        blog = get_object_or_404(Blog_table, pk=pk)
+        serializer = BlogSerializer(blog, data=request.data, partial=True)  # Set partial=True for partial update
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        # blog = Blog_table.objects.get(pk=pk)
+        blog = get_object_or_404(Blog_table, pk=pk)
+        blog.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
