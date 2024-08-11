@@ -13,7 +13,13 @@
 > docker run -p 8000:8000 <docker_image_name>:<tag_name>
 
 ### Example for running container
-> docker run -p 8000:8000 -v .:/smart_blogging_system smart_bloggin_proj:v1
+> docker run -p 8000:8000 -v .:/smart_blogging_system --name smart_bloggin_project smart_bloggin_proj:v1
+
+### For running makemigrations and migrate command and testcases
+> docker exec -it smart_bloggin_project bash
+> python3 manage.py makemigrations
+> python3 manage.py migrate
+> python3 manage.py test
 
 ---
 
