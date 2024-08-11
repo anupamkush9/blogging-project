@@ -22,12 +22,6 @@
 
 > python3 manage.py migrate
 
-### for running all testcases of project
-> python3 manage.py test
-
-### for running only 1 app testcases 
-> python3 manage.py test <app_name>
-
 ---
 
 ### for running complete project test cases
