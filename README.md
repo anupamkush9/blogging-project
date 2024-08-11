@@ -1,4 +1,4 @@
-# Smart-Blogging-System
+# Commands for project set up
 
 
 ### For bulding container syntax
@@ -23,7 +23,7 @@
 > python3 manage.py migrate
 
 ### for running all testcases of project
-> python3 manage.py test\
+> python3 manage.py test
 
 ### for running only 1 app testcases 
 > python3 manage.py test <app_name>
