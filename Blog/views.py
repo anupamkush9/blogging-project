@@ -54,8 +54,6 @@ class BlogDetailDetailView(DetailView):
     template_name = 'Blog/blog_detail.html'
     context_object_name = 'blog'
     pk_url_kwarg = 'id'
-# about
-
 
 def about(request):
     return render(request, 'Blog/about.html')
@@ -67,19 +65,14 @@ class AboutTemplateView(TemplateView):
 class AboutView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'Blog/about.html')
-# Contact
-
 
 def contact(request):
     return render(request, 'Blog/contact.html')
 
 
-# Logout
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-# login view
 
 
 def login(request):
@@ -101,7 +94,6 @@ def login(request):
         return HttpResponseRedirect('/')
 
 
-# Sigup
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -172,17 +164,11 @@ def add_blog(request):
         print(e)
     return render(request, 'Blog/add_blog.html', context)
 
-# update it
-
-
 def blog_update(request, id):
     context = {}
     try:
         blog_obj = Blog_table.objects.get(pk=id)
-        print("------------------------->")
-        print(blog_obj.image)
         if blog_obj.user_id != request.user:
-
             return redirect('/')
         initial_dict = {'Description': blog_obj.Description}
         form = BlogForm(initial=initial_dict)
@@ -204,18 +190,11 @@ def blog_update(request, id):
         print(e)
     return render(request, 'Blog/blog_update.html', context)
 
-# Delete Post
-
 
 def delete_blog(request, id):
     if request.user.is_authenticated:
-        print("request is authenticated........")
-    # if request.method == 'POST':
-        print("dashboard wala blog is running............")
         pi = Blog_table.objects.get(pk=id)
-        print("fetching is done bhai...........")
         pi.delete()
-        print("deletion is also done........")
         return HttpResponseRedirect('/dashboard/')
     else:
         return HttpResponseRedirect('/login/')
@@ -225,7 +204,7 @@ class DeleteBlogView(LoginRequiredMixin, View):
     def get(self, request, id):
         blog = Blog_table.objects.get(pk=id)
         blog.delete()
-        return redirect('dashboard')  # Assuming 'dashboard' is the name of your dashboard URL
+        return redirect('dashboard_name')  # Assuming 'dashboard_name' is the name of your dashboard URL
 
 ########################################## API  CODE Implemenation #######################################################
 class BlogViewSet(viewsets.ModelViewSet):

@@ -20,7 +20,7 @@
         <a class="nav-link navbar-brand {% if request.path == home %} active {% endif %}" href="/">Home <span class="sr-only">({{request.user.username}})</span></a>
       </li>
       <li class="nav-item" onclick="color()">
-        <a class="nav-link navbar-brand {% if request.path == dashboard or request.path == add_blog or request.path == my_task %} active {% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="nav-link navbar-brand {% if request.path == dashboard or request.path == add_blog or request.path == my_task %} active {% endif %}" href="{% url 'dashboard_name' %}">Dashboard</a>
       </li>
 
       {% else %}
@@ -28,22 +28,22 @@
            <a class="nav-link navbar-brand {% if request.path == home %} active {% endif %}" href="/">Home <span class="sr-only"></span></a>
       </li>
       <li class="nav-item" onclick="color()">
-        <a class="nav-link navbar-brand {% if request.path == signup %} active {% endif %}" href="{% url 'signup' %}">Signup/Registration</a>
+        <a class="nav-link navbar-brand {% if request.path == signup %} active {% endif %}" href="{% url 'signup_name' %}">Signup/Registration</a>
       </li>
       <li class="nav-item" onclick="color()">
-        <a class="nav-link navbar-brand {% if request.path == login %} active {% endif %}" href="{% url 'login' %}">Login</a>
+        <a class="nav-link navbar-brand {% if request.path == login %} active {% endif %}" href="{% url 'login_name' %}">Login</a>
       </li>
       {% endif %}
 
       <li class="nav-item" onclick="color()">
-        <a class="nav-link navbar-brand {% if request.path == about %} active {% endif %}" href="{% url 'about' %}">About</a>
+        <a class="nav-link navbar-brand {% if request.path == about %} active {% endif %}" href="{% url 'about_name' %}">About</a>
       </li>
       <li class="nav-item" onclick="color()">
-        <a class="nav-link navbar-brand {% if request.path == contact %} active {% endif %}" href="{% url 'contact' %}">Contact</a>
+        <a class="nav-link navbar-brand {% if request.path == contact %} active {% endif %}" href="{% url 'contact_name' %}">Contact</a>
       </li>
        {% if request.user.is_authenticated %}
         <li class="nav-item" onclick="color()">
-            <a class="nav-link navbar-brand {% if request.path == logout %} active {% endif %}" href="{% url 'logout' %}">Logout</a>
+            <a class="nav-link navbar-brand {% if request.path == logout %} active {% endif %}" href="{% url 'logout_name' %}">Logout</a>
         </li>
       {% endif %}
     </ul>
