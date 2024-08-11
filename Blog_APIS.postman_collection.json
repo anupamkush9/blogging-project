@@ -1,0 +1,489 @@
+{
+	"info": {
+		"_postman_id": "77663d8c-5771-49ad-ae9c-f7899314f007",
+		"name": "Blog_APIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36002631"
+	},
+	"item": [
+		{
+			"name": "blog_viewset_API",
+			"item": [
+				{
+					"name": "Get_all_blogs_modelViewset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/v1/blogs"
+					},
+					"response": []
+				},
+				{
+					"name": "Get_blog_by_id_modelViewset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/v1/blogs/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Create_blog_by_id_modelViewset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Your Blog Title",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "This is the description of the blog",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/anupam/Downloads/faltu image/reverse_a_queue.png"
+								}
+							]
+						},
+						"url": "{{url}}/api/v1/blogs/"
+					},
+					"response": []
+				},
+				{
+					"name": "patch_blog_by_id_modelViewset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Your Blog Title llllllllllll",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "Description",
+									"value": "This is the description of the blog.l123",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/anupam/Downloads/faltu image/reverse_a_queue.png",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{url}}/api/v1/blogs/25/"
+					},
+					"response": []
+				},
+				{
+					"name": "put_blog_by_id_modelViewset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Your Blog Title llllllllllll",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/anupam/Downloads/faltu image/reverse_a_queue.png"
+								}
+							]
+						},
+						"url": "{{url}}/api/v1/blogs/25/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_blog_by_id_modelViewset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/v1/blogs/1/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "blog_APIView_APIS",
+			"item": [
+				{
+					"name": "Get_all_blogs_by_APIViewset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "admin",
+								"username": "admin"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/blogs"
+					},
+					"response": []
+				},
+				{
+					"name": "Get_blog_by_id_APIViewset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/blogs/27"
+					},
+					"response": []
+				},
+				{
+					"name": "Create_blog_by_APIView",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Your Blog Title",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "This is the description of the blog kjjkl",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/anupam/Downloads/faltu image/reverse_an_array.png"
+								}
+							]
+						},
+						"url": "{{url}}/api/blogs/"
+					},
+					"response": []
+				},
+				{
+					"name": "patch_blog_by_id_APIView",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Your Blog Title llllllllllll",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "Description",
+									"value": "This is the descriptippppppppppppppppp",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/anupam/Downloads/faltu image/reverse_a_queue.png",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{url}}/api/blogs/27/"
+					},
+					"response": []
+				},
+				{
+					"name": "put_blog_by_id_APIViewset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Your Blog Title ",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/anupam/Downloads/faltu image/reverse_a_queue.png"
+								}
+							]
+						},
+						"url": "{{url}}/api/blogs/28/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_blog_by_id_APIViewset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/blogs/28/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JWT token APIS",
+			"item": [
+				{
+					"name": "TokenObtainPair",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/token/"
+					},
+					"response": []
+				},
+				{
+					"name": "TokenRefresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/token/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

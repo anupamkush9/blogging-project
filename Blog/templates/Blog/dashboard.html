@@ -37,7 +37,7 @@
 
     <div class="col-sm-10">
         <h3 class=" my-2">Dashboard Page</h3>
-        <a href="{% url 'add_blog' %}" class="btn btn-success">Add Blog</a>
+        <a href="{% url 'add_blog_name' %}" class="btn btn-success">Add Blog</a>
         <h4 class="text-center alert alert-info mt-3">Showing Blog Information</h4>
 
         {% if blogs %}
@@ -58,11 +58,13 @@
                          <td class="col-sm-1" >{{blog.id}}</td>
                          <td class="col-sm-3">{{blog.title}}</td>
                            <td class="col-sm-1">
+                            {% if blog.image %}
                                <img src="{{ blog.image.url }}" height="65" width="75">
+                            {% endif %}
                            </td>
                          <td class="col-sm-4">{{blog.date}}</td>
                          <td class="col-sm-3 text-center">
-                                    <a href="{% url 'blog_update' blog.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{% url 'blog_update_name' blog.id %}" class="btn btn-warning btn-sm">Edit</a>
                                       <a onclick="popup({{blog.id}})">
                                           <input type="button" class="btn btn-danger btn-sm" value="Delete">
                                       </a>
