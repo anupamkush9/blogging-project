@@ -1,4 +1,4 @@
-# Smart-Blogging-System
+# Commands for project set up
 
 
 ### For bulding container syntax
