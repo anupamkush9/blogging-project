@@ -17,9 +17,16 @@
 
 ### For running makemigrations and migrate command and testcases
 > docker exec -it smart_bloggin_project bash
+
 > python3 manage.py makemigrations
+
 > python3 manage.py migrate
-> python3 manage.py test
+
+### for running all testcases of project
+> python3 manage.py test\
+
+### for running only 1 app testcases 
+> python3 manage.py test <app_name>
 
 ---
 
