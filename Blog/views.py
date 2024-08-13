@@ -17,9 +17,10 @@ from .serializers import BlogSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 
 def home(request):
@@ -266,3 +267,21 @@ class BlogDetailAPIView(APIView):
         blog = get_object_or_404(Blog_table, pk=pk)
         blog.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserTokenObtainPairAPIView(APIView):
+    permission_classes = [AllowAny,]
+
+    def post(self, request):
+        email = request.data['email']
+        password = request.data['password']
+        if user := authenticate(username=email, password=password):
+            refresh_token = RefreshToken.for_user(user)
+            access_token = AccessToken.for_user(user)
+            return Response(data={  "email": email,
+                                    "access_token": str(access_token),
+                                    "refresh_token": str(refresh_token)
+                                    }, status=status.HTTP_200_OK)
+        else:
+            return Response(data={'status': "Invalid Credentials"},
+                            status=status.HTTP_401_UNAUTHORIZED)
