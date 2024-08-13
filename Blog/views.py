@@ -99,11 +99,9 @@ def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            messages.success(
-                request, 'Congratulations!! You have become an Author.')
-            user = form.save()
-            group = Group.objects.get_or_create(name='Author')
-            user.groups.add(group)
+            form.save()
+            messages.success(request, 'Congratulations!! You have become an Author.')
+            return HttpResponseRedirect('/dashboard/')
     else:
         form = SignUpForm()
     return render(request, 'Blog/signup.html', {'form': form})
