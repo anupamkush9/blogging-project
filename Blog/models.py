@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
 from froala_editor.fields import FroalaField
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class Blog_table(models.Model):
     user_id=models.ForeignKey(User,on_delete=models.CASCADE)    #user_id is the username

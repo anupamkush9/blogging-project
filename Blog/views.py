@@ -101,7 +101,7 @@ def signup(request):
             messages.success(
                 request, 'Congratulations!! You have become an Author.')
             user = form.save()
-            group = Group.objects.get(name='Author')
+            group = Group.objects.get_or_create(name='Author')
             user.groups.add(group)
     else:
         form = SignUpForm()

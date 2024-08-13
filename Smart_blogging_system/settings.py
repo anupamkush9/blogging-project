@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Todo',
     'rest_framework',
     'rest_framework_simplejwt',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,7 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     "UPDATE_LAST_LOGIN": True,
 }
+
+AUTH_USER_MODEL = 'accounts.blogingUser'
+
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
