@@ -1,7 +1,8 @@
 from django.contrib import admin
 from accounts.models import blogingUser
+from django.contrib.auth.admin import UserAdmin
 
-class blogingUserAdmin(admin.ModelAdmin):
+class blogingUserAdmin(UserAdmin):
     list_display = ['email']
 
 # Register your models here.
