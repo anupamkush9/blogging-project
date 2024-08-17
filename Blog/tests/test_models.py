@@ -1,11 +1,12 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from Blog.models import Blog_table
 import datetime
+User = get_user_model()
 
 class BlogTableModelTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.user = User.objects.create_user(email='testuser@gmail.com', password='testpassword')
         self.blog = Blog_table.objects.create(
             user_id=self.user,
             title='Test Blog Title',
@@ -17,7 +18,7 @@ class BlogTableModelTest(TestCase):
         """
         Ensure that a Blog_table instance is created with the correct values.
         """
-        self.assertEqual(self.blog.user_id.username, 'testuser')
+        self.assertEqual(self.blog.user_id.email, 'testuser@gmail.com')
         self.assertEqual(self.blog.title, 'Test Blog Title')
         self.assertEqual(self.blog.Description, 'This is a test description')
         self.assertEqual(self.blog.image, 'path/to/test_image.jpg')

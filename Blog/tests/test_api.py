@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from rest_framework import status
@@ -7,6 +7,7 @@ from Blog.models import Blog_table
 from PIL import Image
 import io
 from Blog.serializers import BlogSerializer
+User = get_user_model()
 
 class BlogAPITestCase(APITestCase):
 
@@ -27,15 +28,15 @@ class BlogAPITestCase(APITestCase):
     #     self.blogs_url = reverse('bloglistcreateapiview_name')
 
     def setUp(self):
-        self.login_api_url = reverse('token_obtain_pair')
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.login_api_url = reverse('user_token_obtain_pair')
+        self.user = User.objects.create_user(email='testuser@gmail.com', password='testpassword')
         self.data = {
-            'username': "testuser",
+            'email': "testuser@gmail.com",
             'password': "testpassword"
         }
         self.client = APIClient()
         self.response = self.client.post(self.login_api_url, self.data, format='json')
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.response.data['access']))
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + str(self.response.data['access_token']))
 
         # Create an initial blog entry
         self.blog = Blog_table.objects.create(

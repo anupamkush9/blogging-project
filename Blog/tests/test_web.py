@@ -1,15 +1,16 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
 from Blog.models import Blog_table
 
+User = get_user_model()
 
 class BlogViewsTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.client.login(username='testuser', password='testpassword')
+        self.user = User.objects.create_user(email='testuser@gmail.com', password='testpassword')
+        self.client.login(username='testuser@gmail.com', password='testpassword')
 
         self.blog = Blog_table.objects.create(
             user_id=self.user,
