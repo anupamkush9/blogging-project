@@ -128,8 +128,7 @@ USE_TZ = True
 
 LOGIN_URL = '/login/'
 
-USE_S3 = True
-# USE_S3 = ue
+USE_S3 = False
 
 # implementation Ref
 # https://testdriven.io/blog/storing-django-static-and-media-files-on-amazon-s3/
