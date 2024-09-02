@@ -139,19 +139,25 @@ if USE_S3:
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_REGION_NAME = "us-east-1"
-    AWS_DEFAULT_ACL = None
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    # AWS_DEFAULT_ACL = None
+    AWS_S3_CUSTOM_DOMAIN = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    CLOUDFRONT_DISTRIBUTION_DOMAIN_NAME = config('CLOUDFRONT_DISTRIBUTION_DOMAIN_NAME', default=None)
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+    # implementation Ref for cloudfront cdn
+    # https://appliku.com/post/django-file-uploads-s3-and-cloudfront-cdn/
+    if CLOUDFRONT_DISTRIBUTION_DOMAIN_NAME:
+        AWS_S3_CUSTOM_DOMAIN = CLOUDFRONT_DISTRIBUTION_DOMAIN_NAME
 
     # s3 static settings
     AWS_LOCATION = 'staticfiles'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    STATIC_URL = f'{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
     STATICFILES_STORAGE = 'Smart_blogging_system.storage_backends.StaticStorage'
     # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+    MEDIA_URL = f'{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'Smart_blogging_system.storage_backends.PublicMediaStorage'
 else:
     STATIC_URL = '/staticfiles/'
