@@ -11,6 +11,6 @@ RUN mkdir /smart_blogging_system
 WORKDIR /smart_blogging_system
 COPY . /smart_blogging_system
 RUN pip install -r requirements.txt
-EXPOSE 8000
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# EXPOSE 8000
+# CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 

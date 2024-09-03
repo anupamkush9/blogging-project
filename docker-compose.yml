@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: smart_blogging_system_container
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/smart_blogging_system
+    command: python3 manage.py runserver 0.0.0.0:8000
+
