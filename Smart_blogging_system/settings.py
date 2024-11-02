@@ -28,8 +28,8 @@ SECRET_KEY = 'i(j3oaf-nyj$moi&m6*km4wkh($^7&b(40jl+1s^7gg1hx%!94'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-
+CSRF_TRUSTED_ORIGINS = ["https://6d22-205-254-168-243.ngrok-free.app/", "https://6d22-205-254-168-243.ngrok-free.app"]
+ALLOWED_CLIENT_IPS = ["205.254.168.243"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'Blog.middleware.CaptureClientIPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
