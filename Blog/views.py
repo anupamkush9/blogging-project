@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import logout, authenticate
+from django.contrib.auth import logout, authenticate, get_user_model
 from .models import Blog_table
 from .forms import LoginForm, SignUpForm
 from django.contrib.auth.models import Group
@@ -283,3 +283,57 @@ class UserTokenObtainPairAPIView(APIView):
         else:
             return Response(data={'status': "Invalid Credentials"},
                             status=status.HTTP_401_UNAUTHORIZED)
+
+
+class SignupAPIView(APIView):
+    """API view to register a new user using email as username.
+
+    Expected payload (JSON):
+      - email (required)
+      - password or password1 (required)
+      - password2 (optional; if provided, must match password1)
+      - first_name (optional)
+      - last_name (optional)
+
+    Responses:
+      201: user created
+      400: validation errors
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        data = request.data
+        email = (data.get('email') or '').strip()
+        password1 = data.get('password1') or data.get('password')
+        password2 = data.get('password2') or password1
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
+
+        errors = {}
+        if not email:
+            errors['email'] = 'This field is required.'
+        if not password1:
+            errors['password'] = 'This field is required.'
+        if password1 and password2 and password1 != password2:
+            errors['password2'] = "Passwords do not match."
+
+        UserModel = get_user_model()
+        if email and (UserModel.objects.filter(email=email).exists() or UserModel.objects.filter(username=email).exists()):
+            errors['email'] = 'User with this email already exists.'
+
+        if errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # create the user
+        try:
+            user = UserModel.objects.create_user(
+                username=email,
+                email=email,
+                password=password1,
+                first_name=first_name,
+                last_name=last_name,
+            )
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'status': 'user created', 'email': user.email}, status=status.HTTP_201_CREATED)

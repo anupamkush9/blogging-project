@@ -2,6 +2,7 @@ from django.urls import path, include
 from Blog import views
 from rest_framework.routers import DefaultRouter
 from .views import BlogViewSet
+from .views import SignupAPIView
 
 router = DefaultRouter()
 router.register(r'blogs', BlogViewSet)
@@ -45,5 +46,6 @@ urlpatterns = [
     
     path('api/blogs/', views.BlogListCreateAPIView.as_view(), name="bloglistcreateapiview_name"),  # For list and create
     path('api/blogs/<int:pk>/', views.BlogDetailAPIView.as_view(), name="blogdetailapiview_name"),  # For retrieve, update, and delete
+    path('api/signup/', SignupAPIView.as_view(), name='signup_api'),
 
 ]
