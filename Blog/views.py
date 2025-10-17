@@ -21,6 +21,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework.pagination import PageNumberPagination
+from django.db.models import Q
 
 
 def home(request):
@@ -220,10 +222,101 @@ class BlogListCreateAPIView(APIView):
     authentication_classes = [JWTAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
+    class CustomPageNumberPagination(PageNumberPagination):
+        # default page size when user doesn't pass `page_size`
+        page_size = 10
+        # allow client to set the page size using `page_size` query param
+        page_size_query_param = 'page_size'
+        # limit maximum page size to prevent abuse
+        max_page_size = 100
+        # the query param name for the page number
+        page_query_param = 'page'
+
+        def get_paginated_response(self, data):
+            """Return a Response with pagination metadata including total pages.
+
+            This implementation is defensive: it attempts to read paginator attributes
+            but falls back gracefully if something is missing.
+            """
+            # defaults
+            total_pages = None
+            current_page = None
+            effective_page_size = self.page_size
+
+            # Try to read values from the paginator/page
+            if hasattr(self, 'page') and self.page is not None:
+                paginator = getattr(self.page, 'paginator', None)
+                if paginator is not None:
+                    total_count = getattr(paginator, 'count', None)
+                    per_page = getattr(paginator, 'per_page', None)
+                    if per_page:
+                        effective_page_size = per_page
+                    if total_count is not None and effective_page_size:
+                        try:
+                            total_pages = (total_count + effective_page_size - 1) // effective_page_size
+                        except Exception:
+                            total_pages = None
+                current_page = getattr(self.page, 'number', None)
+
+            # honor client-provided page_size if set
+            try:
+                client_page_size = self.get_page_size(self.request)
+                if client_page_size:
+                    effective_page_size = client_page_size
+            except Exception:
+                pass
+
+            return Response({
+                'count': getattr(getattr(self, 'page', None), 'paginator', None) and getattr(self.page.paginator, 'count', None),
+                'total_pages': total_pages,
+                'page': current_page,
+                'page_size': effective_page_size,
+                # how many items are in this response (current page length)
+                'results_count': len(data) if data is not None else 0,
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link(),
+                'results': data,
+            })
+
     def get(self, request):
-        blogs = Blog_table.objects.all()
-        serializer = BlogSerializer(blogs, many=True)
-        return Response(serializer.data)
+        """List blogs with optional filtering and page number pagination.
+
+        Supported query params:
+          - page (int): page number (default 1)
+          - page_size (int): items per page (default 10, max 100)
+          - q (str): full-text search against title and Description
+          - title (str): filter by title contains
+          - author (str): filter by author's username or email (exact match)
+          - ordering (str): Django ordering string (e.g. `-id` or `title`)
+        """
+        qs = Blog_table.objects.all()
+
+        q = request.query_params.get('q')
+        title = request.query_params.get('title')
+        author = request.query_params.get('author')
+        ordering = request.query_params.get('ordering')
+
+        if q:
+            qs = qs.filter(Q(title__icontains=q) | Q(Description__icontains=q))
+
+        if title:
+            qs = qs.filter(title__icontains=title)
+
+        if author:
+            # try matching against username or email on the related user
+            qs = qs.filter(Q(user_id__username__iexact=author) | Q(user_id__email__iexact=author))
+
+        if ordering:
+            try:
+                qs = qs.order_by(ordering)
+            except Exception:
+                # ignore invalid ordering and fall back to default
+                pass
+
+        paginator = self.CustomPageNumberPagination()
+        page = paginator.paginate_queryset(qs, request, view=self)
+        serializer = BlogSerializer(page, many=True, context={'request': request})
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
         serializer = BlogSerializer(data=request.data)
