@@ -23,6 +23,7 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 def home(request):
@@ -221,6 +222,7 @@ class BlogViewSet(viewsets.ModelViewSet):
 class BlogListCreateAPIView(APIView):
     authentication_classes = [JWTAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     class CustomPageNumberPagination(PageNumberPagination):
         # default page size when user doesn't pass `page_size`
@@ -289,7 +291,7 @@ class BlogListCreateAPIView(APIView):
           - author (str): filter by author's username or email (exact match)
           - ordering (str): Django ordering string (e.g. `-id` or `title`)
         """
-        qs = Blog_table.objects.all()
+        qs = Blog_table.objects.all().order_by("-date")
 
         q = request.query_params.get('q')
         title = request.query_params.get('title')
