@@ -332,7 +332,7 @@ class BlogDetailAPIView(APIView):
     def get(self, request, pk):
         # blog = Blog_table.objects.get(pk=pk)
         blog = get_object_or_404(Blog_table, pk=pk)
-        serializer = BlogSerializer(blog)
+        serializer = BlogSerializer(blog, context={'request': request})
         return Response(serializer.data)
 
 	# 1st argument represents the instance of the Blog_table model that we want to update. and 2nd argument is the new data that we want to apply to the instance.
