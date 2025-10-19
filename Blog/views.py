@@ -291,7 +291,7 @@ class BlogListCreateAPIView(APIView):
           - author (str): filter by author's username or email (exact match)
           - ordering (str): Django ordering string (e.g. `-id` or `title`)
         """
-        qs = Blog_table.objects.all().order_by("-date")
+        qs = Blog_table.objects.all().order_by("-created_at")
 
         q = request.query_params.get('q')
         title = request.query_params.get('title')

@@ -8,8 +8,9 @@ class Blog_table(models.Model):
     title=models.CharField(max_length=150)
     # here Description d should be in small characters as per model field naming convention
     Description=FroalaField()
-    date=models.DateTimeField(auto_now_add=True,null=True)
     image=models.ImageField(upload_to='Blog/images', default='', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # Set once when the record is created
+    updated_at = models.DateTimeField(auto_now=True)      # Updated automatically on every save
 
     def __str__(self):
         return self.title
