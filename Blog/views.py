@@ -150,7 +150,7 @@ def add_blog(request):
     try:
         if request.method == 'POST':
             form = BlogForm(request.POST, request.FILES)
-            image = request.FILES['image']
+            image = request.FILES.get('image')
             title = request.POST.get('title')
             user = request.user
             # print(request.POST.get['Description'])
@@ -175,8 +175,8 @@ def blog_update(request, id):
         form = BlogForm(initial=initial_dict)
         if request.method == 'POST':
             form = BlogForm(request.POST)
-            print(request.FILES)
-            image = request.FILES['image']
+            # image may be omitted when updating
+            image = request.FILES.get('image')
 
             title = request.POST.get('title')
             user = request.user
